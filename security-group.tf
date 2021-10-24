@@ -22,6 +22,15 @@ resource "aws_security_group_rule" "allow-http" {
   security_group_id = aws_security_group.instance-sg.id
 }
 
+resource "aws_security_group_rule" "allow-http-3000" {
+  from_port         = 3000
+  protocol          = "tcp"
+  to_port           = 3000
+  cidr_blocks       = ["0.0.0.0/0"]
+  type              = "ingress"
+  security_group_id = aws_security_group.instance-sg.id
+}
+
 resource "aws_security_group_rule" "allow-ingress-http" {
   from_port         = 80
   protocol          = "tcp"

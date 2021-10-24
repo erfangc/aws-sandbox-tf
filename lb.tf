@@ -7,7 +7,7 @@ resource "aws_lb" "lb" {
 
 resource "aws_lb_target_group" "tg" {
   target_type = "instance"
-  port        = 80
+  port        = 3000
   protocol    = "TCP"
   vpc_id      = module.vpc.vpc_id
   health_check {
@@ -19,7 +19,6 @@ resource "aws_lb_target_group" "tg" {
 
 resource "aws_lb_target_group_attachment" "tga" {
   target_group_arn = aws_lb_target_group.tg.arn
-  port             = 80
   target_id        = aws_instance.server.id
 }
 
