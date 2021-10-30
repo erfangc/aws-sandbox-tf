@@ -5,25 +5,20 @@ import re
 import boto3
 
 from elasticsearch import Elasticsearch, RequestsHttpConnection
-from requests_aws4auth import AWS4Auth
 
 session = boto3.session.Session()
 credentials = session.get_credentials()
 
 s3 = session.resource('s3')
 
-awsauth = AWS4Auth(credentials.access_key,
-                   credentials.secret_key,
-                   session.region_name, 'es',
-                   session_token=credentials.token)
-
 es = Elasticsearch(
-    [os.environ["ES_ENDPOINT"]],
+    hosts=[os.environ["ES_ENDPOINT"]],
     use_ssl=True,
     verify_certs=True,
-    http_auth=awsauth,
-    connection_class=RequestsHttpConnection
+    connection_class=RequestsHttpConnection,
+    port=443
 )
+
 reserved_fields = ["uid", "_id", "_type", "_source", "_all", "_parent", "_fieldnames", "_routing", "_index", "_size",
                    "_timestamp", "_ttl"]
 
