@@ -18,7 +18,7 @@ resource "aws_lambda_function" "sync-assets-to-dev" {
   environment {
     variables = {
       TARGET_AWS_ACCOUNT_NUMBER = var.dev_account_id
-      TARGET_ROLE_NAME          = "arn:aws:iam::${var.dev_account_id}:role/ProductionDynamoDBSyncRole"
+      TARGET_ROLE_NAME          = "ProductionDynamoDBSyncRole"
       TARGET_DYNAMODB_NAME      = aws_dynamodb_table.assets.name
       TARGET_REGION             = data.aws_region.current.name  
     }
