@@ -63,10 +63,13 @@ def remove_document(event, es, record):
     docId = docid(event, event)
     print("Deleting document ID: ", docId)
 
-    es.delete(index=table,
-              id=docId,
-              doc_type=table,
-              refresh=True)
+    es.delete(
+        index=table,
+        id=docId,
+        doc_type=table,
+        refresh=True,
+        ignore=[404]
+    )
 
     print("Successfully removed - Index: ", table, " - Document ID: ", docId)
 
