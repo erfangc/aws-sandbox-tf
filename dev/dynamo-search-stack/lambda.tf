@@ -18,7 +18,8 @@ resource "aws_lambda_function" "lambda" {
   filename         = data.archive_file.lambda.output_path
   source_code_hash = data.archive_file.lambda.output_base64sha256
   runtime          = "python3.8"
-
+  timeout = 100
+  
   vpc_config {
     security_group_ids = [var.security_group_id]
     subnet_ids         = var.subnet_ids
