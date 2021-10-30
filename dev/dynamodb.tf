@@ -1,5 +1,5 @@
 module "assets" {
-  source               = "./dynamo-search-stack"
+  source               = "../dynamo-search-stack"
   elasticsearch_domain = aws_elasticsearch_domain.esd.domain_name
   security_group_id    = aws_security_group.lambda-sg.id
   attributes           = [

@@ -96,11 +96,13 @@ def insert_document(event, es, record):
 
     newId = docid(event, record)
 
-    es.index(index=table,
-             body=doc,
-             id=newId,
-             doc_type=table,
-             refresh=True)
+    es.index(
+        index=table,
+        body=doc,
+        id=newId,
+        doc_type=table,
+        refresh=True
+    )
 
     print("Successfully inserted - Index: ", table + " - Document ID: ", newId)
 

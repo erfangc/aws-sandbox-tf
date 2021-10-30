@@ -19,18 +19,18 @@ resource "aws_lambda_function" "sync-assets-to-dev" {
     variables = {
       TARGET_AWS_ACCOUNT_NUMBER = var.dev_account_id
       TARGET_ROLE_NAME          = "ProductionDynamoDBSyncRole"
-      TARGET_DYNAMODB_NAME      = aws_dynamodb_table.assets.name
+      TARGET_DYNAMODB_NAME      = module.assets.name
       TARGET_REGION             = data.aws_region.current.name  
     }
   }
 
   tags = {
-    TableName = aws_dynamodb_table.assets.name
+    TableName = module.assets.name
   }
 }
 
 resource "aws_lambda_event_source_mapping" "example" {
-  event_source_arn  = aws_dynamodb_table.assets.stream_arn
+  event_source_arn  = module.assets.stream_arn
   function_name     = aws_lambda_function.sync-assets-to-dev.arn
   starting_position = "LATEST"
 }
