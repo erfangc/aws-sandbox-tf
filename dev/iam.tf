@@ -5,7 +5,7 @@ resource "aws_iam_role" "prod-ddb-sync" {
       {
         Effect    = "Allow"
         Principal = {
-          AWS = "arn:aws:iam::${var.prod_account_id}:root"
+          AWS = "arn:aws:iam::${var.prod_account_id}:role/DynamoDBStreamLambdaExecutioner"
         },
         Action    = "sts:AssumeRole"
         Condition = {}
