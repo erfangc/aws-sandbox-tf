@@ -31,7 +31,7 @@ resource "aws_iam_policy" "ddb-stream-lambda-executor-policy" {
         Action   = ["sts:AssumeRole"]
         Effect   = "Allow",
         Resource = [
-          "arn:aws:iam::${var.dev_account_id}:role/arn:aws:iam::${var.dev_account_id}:role/ProductionDynamoDBSyncRole"
+          "arn:aws:iam::${var.dev_account_id}:role/ProductionDynamoDBSyncRole"
         ]
       },
       {
