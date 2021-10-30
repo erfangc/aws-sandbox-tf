@@ -2,20 +2,12 @@ import json
 import os
 import re
 
-import boto3
-
-from elasticsearch import Elasticsearch, RequestsHttpConnection
-
-session = boto3.session.Session()
-credentials = session.get_credentials()
-
-s3 = session.resource('s3')
+from elasticsearch import Elasticsearch
 
 es = Elasticsearch(
     hosts=[os.environ["ES_ENDPOINT"]],
     use_ssl=True,
     verify_certs=True,
-    connection_class=RequestsHttpConnection,
     port=443
 )
 
