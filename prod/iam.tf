@@ -23,9 +23,16 @@ resource "aws_iam_policy" "ddb-stream-lambda-executor-policy" {
     Version   = "2012-10-17",
     Statement = [
       {
-        Action   = ["logs:*"],
+        Action   = ["logs:*"]
         Effect   = "Allow",
         Resource = ["arn:aws:logs:*:*:*"]
+      },
+      {
+        Action   = ["sts:AssumeRole"]
+        Effect   = "Allow",
+        Resource = [
+          "arn:aws:iam::${var.dev_account_id}:role/arn:aws:iam::${var.dev_account_id}:role/ProductionDynamoDBSyncRole"
+        ]
       },
       {
         Action   = [
@@ -39,9 +46,7 @@ resource "aws_iam_policy" "ddb-stream-lambda-executor-policy" {
           "dynamodb:ListStreams"
         ],
         Effect   = "Allow",
-        Resource = [
-          "*"
-        ]
+        Resource = ["*"]
       }
     ]
   })
