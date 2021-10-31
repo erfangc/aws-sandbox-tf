@@ -2,9 +2,9 @@ data "aws_elasticsearch_domain" "esd" {
   domain_name = var.elasticsearch_domain
 }
 
-data "archive_file" "lambda" {
-  output_path = "${path.module}/builds/lambda.zip"
-  source_dir  = "${path.module}/lambda"
+data "archive_file" "code" {
+  output_path = "${path.module}/builds/code.zip"
+  source_dir  = "${path.module}/code"
   excludes    = ["__init__.py", "*.pyc"]
   type        = "zip"
 }
@@ -14,12 +14,12 @@ resource "aws_lambda_function" "lambda" {
   function_name    = "sync-${var.name}-from-ddb-to-es"
   role             = aws_iam_role.lambda-executor.arn
   description      = "Reads off DynamoDB stream for table ${var.name} and sync to Elasticsearch"
-  handler          = "lambda_handler.lambda_handler"
-  filename         = data.archive_file.lambda.output_path
-  source_code_hash = data.archive_file.lambda.output_base64sha256
+  handler          = "main.lambda_handler"
+  filename         = data.archive_file.code.output_path
+  source_code_hash = data.archive_file.code.output_base64sha256
   runtime          = "python3.8"
-  timeout = 100
-  
+  timeout          = 3
+
   vpc_config {
     security_group_ids = [var.security_group_id]
     subnet_ids         = var.subnet_ids
@@ -36,7 +36,7 @@ resource "aws_lambda_function" "lambda" {
   }
 }
 
-resource "aws_lambda_event_source_mapping" "example" {
+resource "aws_lambda_event_source_mapping" "source_mapping" {
   event_source_arn  = aws_dynamodb_table.table.stream_arn
   function_name     = aws_lambda_function.lambda.arn
   starting_position = "LATEST"

@@ -12,3 +12,9 @@ module "assets" {
   name                 = "assets"
   subnet_ids           = module.vpc.private_subnets
 }
+
+module "assets-dev-sync-stack" {
+  source         = "../dynamo-sync-stack"
+  table_name     = module.assets.name
+  target_account = var.dev_account_id
+}
