@@ -1,7 +1,3 @@
-data "aws_elasticsearch_domain" "esd" {
-  domain_name = var.elasticsearch_domain
-}
-
 data "archive_file" "code" {
   output_path = "${path.module}/builds/code.zip"
   source_dir  = "${path.module}/code"
@@ -21,13 +17,13 @@ resource "aws_lambda_function" "lambda" {
   timeout          = 3
 
   vpc_config {
-    security_group_ids = [var.security_group_id]
-    subnet_ids         = var.subnet_ids
+    security_group_ids = [var.vpc_config.security_group_id]
+    subnet_ids         = var.vpc_config.subnet_ids
   }
 
   environment {
     variables = {
-      ES_ENDPOINT = data.aws_elasticsearch_domain.esd.endpoint
+      ES_ENDPOINT = var.elasticsearch_domain.endpoint
     }
   }
 

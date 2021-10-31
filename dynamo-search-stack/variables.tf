@@ -1,13 +1,15 @@
-variable "security_group_id" {
-  type = string
-}
-
-variable "subnet_ids" {
-  type = list(string)
+variable "vpc_config" {
+  type = object({
+    security_group_id : string,
+    subnet_ids : list(string)
+  })
 }
 
 variable "elasticsearch_domain" {
-  type = string
+  type = object({
+    endpoint : string,
+    domain_name : string
+  })
 }
 
 variable "name" {
