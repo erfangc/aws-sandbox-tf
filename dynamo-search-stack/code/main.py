@@ -2,6 +2,7 @@ import json
 import os
 import re
 
+import dynamodb_json
 from elasticsearch import Elasticsearch
 
 es = Elasticsearch(
@@ -85,12 +86,8 @@ def get_table(record):
 
 # converts a record and in its DDB JSON format to regular JSON
 def to_document(record):
-    doc = {}
-    for k, v in record['dynamodb']['NewImage'].items():
-        if "S" in v.keys() or "BOOL" in v.keys():
-            doc[k] = v.get('S', v.get('BOOL', False))
-        elif 'NULL' in v:
-            doc[k] = None
+    item = record['dynamodb']['NewImage']
+    doc = dynamodb_json.dump(item)
     return json.dumps(doc)
 
 
