@@ -2,6 +2,6 @@ variable "target_account" {
   type = number
 }
 
-variable "table_name" {
-  type = string
+variable "table" {
+  type = object({name: string, stream_arn: string})
 }
