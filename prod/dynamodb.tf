@@ -20,6 +20,10 @@ module "assets" {
 
   elasticsearch_domain = aws_elasticsearch_domain.esd
   vpc_config           = local.vpc_config
+  
+  billing_mode = "PROVISIONED"
+  read_capacity = 200
+  write_capacity = 1000
 }
 
 module "people" {
